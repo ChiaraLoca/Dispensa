@@ -102,7 +102,13 @@ class ScaffaleBuio extends Scaffale
     @Override
     public String toString()
     {
-        return super.toString() +", Luce: "+ getLightSensorSimulator();
+        String str=""; 
+        try {
+            str =  super.toString() +", Luce: "+ getLightSensorSimulator().get();
+        } catch (IOException ex) {
+            Logger.getLogger(ScaffaleCongelatore.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return str;
     }
     
 }
@@ -127,7 +133,13 @@ class ScaffaleFrigorifero extends Scaffale
     @Override
     public String toString()
     {
-        return super.toString() +", Luce: "+ getLightSensorSimulator();
+        String str=""; 
+        try {
+            str =  super.toString() +", Luce: "+ getLightSensorSimulator().get();
+        } catch (IOException ex) {
+            Logger.getLogger(ScaffaleCongelatore.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return str;
     }
 }
 
@@ -150,7 +162,13 @@ class ScaffaleCongelatore extends Scaffale
     @Override
     public String toString()
     {
-        return super.toString() +", Luce: "+ getLightSensorSimulator();
+        String str=""; 
+        try {
+            str =  super.toString() +", Luce: "+ getLightSensorSimulator().get();
+        } catch (IOException ex) {
+            Logger.getLogger(ScaffaleCongelatore.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return str;
     }
 }
 
