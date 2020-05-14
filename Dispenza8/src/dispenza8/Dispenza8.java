@@ -3,13 +3,13 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package dispenza8;
+package dispensa8;
 
 /**
  *
  * @author Chiara
  */
-public class Dispenza8 {
+public class Dispensa8 {
 
     /**
      * @param args the command line arguments
