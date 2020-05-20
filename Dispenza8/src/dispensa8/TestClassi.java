@@ -24,18 +24,17 @@ public class TestClassi {
         Scaffale n2 = new ScaffaleBuio(grovePi);
         Scaffale n3 = new ScaffaleFrigorifero(grovePi);
         Scaffale n4 = new ScaffaleCongelatore(grovePi);
-        
         System.out.println(n1);
         System.out.println(n2);
         System.out.println(n3);
         System.out.println(n4);*/
         
         
-        Stazione s1= new Stazione(grovePi,"ingresso");
+        /*Stazione s1= new Stazione(grovePi,"ingresso");
         Stazione s2= new Stazione(grovePi,"uscita");
         Thread.sleep(6000);
         System.out.println(s1);
-        System.out.println(s2);
+        System.out.println(s2);*/
         
         
     }

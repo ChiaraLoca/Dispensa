@@ -6,10 +6,12 @@ import ch.suspi.simulator.sensors.analog.loadcell.LoadCellSimulator;
 import ch.suspi.simulator.sensors.barcode.Barcode;
 
 import ch.suspi.simulator.sensors.barcode.random.RandomBarcodeSimulator;
+import ch.suspi.simulator.sensors.i2c.lcd.GroveRgbLcdSimulator;
 import java.io.IOException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import org.iot.raspberry.grovepi.GrovePi;
+import org.iot.raspberry.grovepi.sensors.synch.SensorMonitor;
 
 class Stazione {
     
@@ -17,6 +19,9 @@ class Stazione {
     private final String tipo;
     private final RandomBarcodeSimulator randomBarcodeSimulator;
     private final LoadCellSimulator loadCellSimulator; 
+    
+    private final SensorMonitor monitorRandomBarcodeSimulator;
+    private final SensorMonitor monitorLoadCellSimulator;
     public Stazione(GrovePi grovePi,String tipo) throws IOException
     {
         this.grovePi = grovePi;
@@ -24,6 +29,19 @@ class Stazione {
         this.randomBarcodeSimulator = new RandomBarcodeSimulator(""+tipo);
         this.loadCellSimulator = new LoadCellSimulator(this.grovePi,Scaffale.numeroPin);
         Scaffale.numeroPin++;
+        monitorRandomBarcodeSimulator= new SensorMonitor(randomBarcodeSimulator, 100);
+        monitorLoadCellSimulator= new SensorMonitor(loadCellSimulator, 100);
+        
+    }
+    public void startMonitor()
+    {
+        monitorLoadCellSimulator.start();
+        monitorRandomBarcodeSimulator.start();
+    }
+    public void stopMonitor()
+    {
+        monitorLoadCellSimulator.stop();
+        monitorRandomBarcodeSimulator.stop();
     }
     
     public String getTipo()
@@ -58,9 +76,36 @@ class Stazione {
             Logger.getLogger(Stazione.class.getName()).log(Level.SEVERE, null, ex);
         }
         return str;
-        
     }
-         
+
+    public double getPeso() {
+        
+        if(monitorLoadCellSimulator.isValid())
+            return (double) monitorLoadCellSimulator.getValue();
+        else
+            return 0;
+    }
+}
+
+class ProdottoInScadenza
+{
+    private final GrovePi grovePi;
+    private final GroveRgbLcdSimulator groveRgbLcdSimulator;
     
+    public ProdottoInScadenza(GrovePi grovePi)
+    {
+        this.grovePi = grovePi;
+        this.groveRgbLcdSimulator = new GroveRgbLcdSimulator();
+        
+    } 
     
+    void setText(String text) throws IOException
+    {
+        groveRgbLcdSimulator.setText(text);
+    }
+    
+    void setColor(int r,int g, int b) throws IOException
+    {
+        groveRgbLcdSimulator.setRGB(r,g,b);
+    }
 }

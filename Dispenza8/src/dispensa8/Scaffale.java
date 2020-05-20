@@ -12,6 +12,8 @@ import java.io.IOException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import org.iot.raspberry.grovepi.GrovePi;
+import org.iot.raspberry.grovepi.sensors.data.GroveTemperatureAndHumidityValue;
+import org.iot.raspberry.grovepi.sensors.synch.SensorMonitor;
 
 /**
  *
@@ -25,6 +27,10 @@ abstract class Scaffale {
     private final LoadCellSimulator loadCellSimulator;
     private final String nome;
     
+    private final SensorMonitor monitorTemperatureAndHumiditySimulator;
+    private final SensorMonitor monitorLoadCellSimulator;
+    
+    
     public Scaffale(GrovePi grovePi) throws IOException
     {
         this.grovePi = grovePi;
@@ -33,6 +39,8 @@ abstract class Scaffale {
         loadCellSimulator = new LoadCellSimulator(grovePi, numeroPin);
         numeroPin++;
         this.nome = null;
+        monitorTemperatureAndHumiditySimulator = new SensorMonitor(temperatureAndHumiditySimulator,100);
+        monitorLoadCellSimulator = new SensorMonitor(loadCellSimulator, 100);
     }
     public Scaffale(GrovePi grovePi,String nome) throws IOException
     {
@@ -42,34 +50,50 @@ abstract class Scaffale {
         loadCellSimulator = new LoadCellSimulator(grovePi, numeroPin);
         numeroPin++;
         this.nome = nome;
+        monitorTemperatureAndHumiditySimulator = new SensorMonitor(temperatureAndHumiditySimulator,100);
+        monitorLoadCellSimulator = new SensorMonitor(loadCellSimulator, 100);
+    }
+    
+    public void startMonitor()
+    {
+        monitorTemperatureAndHumiditySimulator.start();
+        monitorLoadCellSimulator.start();
+    }
+    
+    public void stopMonitor()
+    {
+        monitorTemperatureAndHumiditySimulator.stop();
+        monitorLoadCellSimulator.stop();
     }
     
     public GrovePi getGrovePi()
     {
         return grovePi;
     }
-    public TemperatureAndHumiditySimulator getTemperatureAndHumiditySimulator()
-    {
-        return temperatureAndHumiditySimulator;
-    }
+
     public String getNome()
     {
         return nome;
     }
     public double getTemperature() throws IOException
     {
-        return temperatureAndHumiditySimulator.get().getTemperature();
+        GroveTemperatureAndHumidityValue t =(GroveTemperatureAndHumidityValue)monitorTemperatureAndHumiditySimulator.getValue();
+        return t.getTemperature();
     }
 
     public double getHumidity() throws IOException
     {
-        return temperatureAndHumiditySimulator.get().getHumidity();
+        GroveTemperatureAndHumidityValue t =(GroveTemperatureAndHumidityValue)monitorTemperatureAndHumiditySimulator.getValue();
+        return t.getHumidity();
     }
     
         public double getLoadCellSimulator() throws IOException
     {
-        return loadCellSimulator.get();
+        
+        return (double) monitorLoadCellSimulator.getValue();
     }
+        
+    
     
     
     @Override
@@ -100,14 +124,36 @@ class ScaffaleBuio extends Scaffale
 {
     private final LightSensorSimulator lightSensorSimulator; 
     
+    private final SensorMonitor monitorLightSensorSimulator;
+    
     public ScaffaleBuio(GrovePi grovePi) throws IOException {
         super(grovePi,"Buio");
         this.lightSensorSimulator = new LightSensorSimulator(getGrovePi(),Scaffale.numeroPin);
         Scaffale.numeroPin++;
+        monitorLightSensorSimulator = new SensorMonitor(lightSensorSimulator, 100);
     }
+    @Override
+    public void startMonitor()
+    {
+        super.startMonitor();
+        monitorLightSensorSimulator.start();
+    }
+    @Override
+    public void stopMonitor()
+    {
+        super.stopMonitor();
+        monitorLightSensorSimulator.stop();
+    }
+    
+    
+    
     public LightSensorSimulator getLightSensorSimulator()
     {
         return lightSensorSimulator;
+    }
+    public double getLight()
+    {
+        return (double) monitorLightSensorSimulator.getValue();
     }
     
     @Override
@@ -128,17 +174,36 @@ class ScaffaleBuio extends Scaffale
 class ScaffaleFrigorifero extends Scaffale
 {
     private final LightSensorSimulator lightSensorSimulator; 
-    
+    private final SensorMonitor monitorLightSensorSimulator;
     public ScaffaleFrigorifero(GrovePi grovePi) throws IOException {
         super(grovePi,"Frigorifero");
         this.lightSensorSimulator = new LightSensorSimulator(getGrovePi(),Scaffale.numeroPin);
         Scaffale.numeroPin++;
     
+        monitorLightSensorSimulator = new SensorMonitor(lightSensorSimulator, 100);
+    }
+    
+        @Override
+    public void startMonitor()
+    {
+        super.startMonitor();
+        monitorLightSensorSimulator.start();
+    }
+    @Override
+    public void stopMonitor()
+    {
+        super.stopMonitor();
+        monitorLightSensorSimulator.stop();
     }
     
     public LightSensorSimulator getLightSensorSimulator()
     {
         return lightSensorSimulator;
+    }
+    
+    public double getLight()
+    {
+        return (double) monitorLightSensorSimulator.getValue();
     }
     
     @Override
@@ -157,14 +222,32 @@ class ScaffaleFrigorifero extends Scaffale
 class ScaffaleCongelatore extends Scaffale
 {
     private final LightSensorSimulator lightSensorSimulator; 
+    private final SensorMonitor monitorLightSensorSimulator;
     
     public ScaffaleCongelatore(GrovePi grovePi) throws IOException {
         super(grovePi,"Congelatore");
         this.lightSensorSimulator = new LightSensorSimulator(getGrovePi(),Scaffale.numeroPin);
         Scaffale.numeroPin++;
+        
+        monitorLightSensorSimulator = new SensorMonitor(lightSensorSimulator, 100);
     
     }
-    
+    @Override
+    public void startMonitor()
+    {
+        super.startMonitor();
+        monitorLightSensorSimulator.start();
+    }
+    @Override
+    public void stopMonitor()
+    {
+        super.stopMonitor();
+        monitorLightSensorSimulator.stop();
+    }
+    public double getLight()
+    {
+        return (double) monitorLightSensorSimulator.getValue();
+    }
     public LightSensorSimulator getLightSensorSimulator()
     {
         return lightSensorSimulator;
