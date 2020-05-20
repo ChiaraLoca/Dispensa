@@ -63,7 +63,7 @@ public static void scaffaleBuoioLuminositaSave (Measurement m, double luminosita
     m.save(luminosita);
 }
 
-public static Measurement frigorigorifereroMeasurement(InfluxConnector ic) {
+public static Measurement scaffaleFrigoriferoMeasurement(InfluxConnector ic) {
     Measurement FrTempHum = ic.createMeasurement("Temperatura e umidita", "autogen");
     FrTempHum.addField("Temperatura Frigorifero", FieldDesc.Type.NUMBER);
     FrTempHum.addField("Umidita Frigorifero", FieldDesc.Type.NUMBER);
@@ -86,7 +86,7 @@ public static void frigoriferoLuminositaSave (Measurement m, double luminosita){
     m.save(luminosita);
 }
 
-public static Measurement congelatoreMeasurement(InfluxConnector ic){
+public static Measurement scaffaleCongelatoreMeasurement(InfluxConnector ic){
     Measurement CnTempHum = ic.createMeasurement("Temperatura e umidita", "autogen");
     CnTempHum.addField("Temperatura congelatore", FieldDesc.Type.NUMBER);
     CnTempHum.addField("Umidita congelatore", FieldDesc.Type.NUMBER);

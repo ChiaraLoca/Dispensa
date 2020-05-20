@@ -50,20 +50,38 @@ public class Main {
         strazioneUscita.startMonitor();
         
         
-        /*InfluxConnector ic = ScaffaleDb.connection(); 
-        Measurement scaffaleNormaleMeasurement = new scaffaleNormaleMeasurement(ic);
-        Measurement scaffaleBuioMeasurement = new scaffaleBuioMeasurement(ic);
-        Measurement scaffaleFrigoriferoMeasurement = new scaffaleFrigoriferoMeasurement(ic);
-        Measurement scaffaleCongelatoreMeasurement = new scaffaleCongelatoreMeasurement(ic);*/
+        InfluxConnector ic = null; 
+        try {
+            ic = ScaffaleDb.connection();
+        } catch (Exception ex) {
+            Logger.getLogger(Main.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        
+         
+        Measurement scaffaleNormaleMeasurement =  ScaffaleDb.scaffaleNormaleMeasurement(ic);
+        Measurement scaffaleBuioMeasurement =  ScaffaleDb.scaffaleBuioMeasurement(ic);
+        Measurement scaffaleFrigoriferoMeasurement = ScaffaleDb.scaffaleFrigoriferoMeasurement(ic);
+        Measurement scaffaleCongelatoreMeasurement =  ScaffaleDb.scaffaleCongelatoreMeasurement(ic);
+        
+        Measurement scaffaleBuioLuceMeasuremen = ScaffaleDb.scaffaleBuioLuminositaMeasurement(ic);
+        Measurement scaffaleFigoriferoLuceMeasuremen = ScaffaleDb.frigoriferoLuminosita(ic);
+        Measurement scaffaleCongelatoreLuceMeasuremen = ScaffaleDb.congelatoreLuminositaMeasurement(ic);
+        
         
         
         while(running)
         {
             
-            /*scaffaleNormaleSave(scaffaleNormaleMeasurement,scaffaleNormale.getTemperature(),scascaffaleNormale.getHumidity());
-           scaffaleBuioSave(scaffaleBuioMeasurement,scaffaleBuio.getTemperature(),scaffaleBuio.getHumidity(),scaffaleBuio.getLight());
-            scaffaleFrigoriferoSave(scaffaleFrigoriferoMeasurement,ScaffaleFrigorifero.getTemperature(),ScaffaleFrigorifero.getHumidity(),ScaffaleFrigorifero.getLight());
-        scaffaleCongelatoreSave(scaffaleCongelatoreMeasurement,ScaffaleCongelatore.getTemperature(),ScaffaleCongelatore.getHumidity(),ScaffaleCongelatore.getLight());*/
+            ScaffaleDb.scaffaleNormaleSave(scaffaleNormaleMeasurement,scaffaleNormale.getTemperature(),scaffaleNormale.getHumidity());
+           
+            ScaffaleDb.scaffaleBuioSave(scaffaleBuioMeasurement,scaffaleBuio.getTemperature(),scaffaleBuio.getHumidity());
+            ScaffaleDb.scaffaleBuoioLuminositaSave(scaffaleBuioLuceMeasuremen,scaffaleBuio.getLight());
+            
+            ScaffaleDb.frigoriferoSave(scaffaleFrigoriferoMeasurement, scaffaleFrigorifero.getTemperature(), scaffaleFrigorifero.getHumidity());
+            ScaffaleDb.frigoriferoLuminositaSave(scaffaleFigoriferoLuceMeasuremen, scaffaleFrigorifero.getLight());
+            
+            ScaffaleDb.congelatoreSave(scaffaleCongelatoreMeasurement, scaffaleCongelatore.getTemperature(), scaffaleCongelatore.getHumidity());
+            ScaffaleDb.congelatoreLuminositaSave(scaffaleCongelatoreLuceMeasuremen, scaffaleCongelatore.getLight());
         
         
             if(strazioneIngeresso.getPeso()>0)
@@ -75,6 +93,9 @@ public class Main {
             {
                 System.out.println("Rilevato peso in uscita");
             }
+            
+            
+            Thread.sleep(1000);
             
         }
         
