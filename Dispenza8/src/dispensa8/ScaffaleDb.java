@@ -9,13 +9,7 @@ import ch.industry4_0.dm.FieldDesc;
 import ch.industry4_0.dm.Measurement;
 import ch.industry4_0.exception.DatabaseSessionException;
 import ch.industry4_0.influx.connector.InfluxConnector;
-import ch.suspi.simulator.sensors.digital.temphumidity.TemperatureAndHumiditySimulator;
-import ch.suspi.simulator.sensors.analog.light.LightSensorSimulator;
-import java.io.IOException;
-import java.util.logging.Level;
-import java.util.logging.Logger;
-import org.iot.raspberry.grovepi.GrovePi;
-import org.iot.raspberry.grovepi.sensors.data.GroveTemperatureAndHumidityValue;
+
 /**
  *
  * @author Riccardo
