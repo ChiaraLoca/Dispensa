@@ -34,28 +34,29 @@ public class Main {
 
         GrovePi grovePi = new GrovePiSimulator();
         
-        /*ScaffaleNormale scaffaleNormale = new ScaffaleNormale(grovePi);
-        ScaffaleBuio scaffaleBuio = new ScaffaleBuio(grovePi);
+        ScaffaleNormale scaffaleNormale = new ScaffaleNormale(grovePi);
+        /*ScaffaleBuio scaffaleBuio = new ScaffaleBuio(grovePi);
         ScaffaleFrigorifero scaffaleFrigorifero = new ScaffaleFrigorifero(grovePi);
         ScaffaleCongelatore scaffaleCongelatore = new ScaffaleCongelatore(grovePi);*/
         Stazione stazioneIngresso= new Stazione(grovePi,"ingresso");
-        /*Stazione strazioneUscita = new Stazione(grovePi,"uscita");
-        ProdottoInScadenza prodottoInScadenza = new ProdottoInScadenza(grovePi);*/
+        Stazione stazioneUscita = new Stazione(grovePi,"uscita");
+        //ProdottoInScadenza prodottoInScadenza = new ProdottoInScadenza(grovePi);
         
         ElencoProdotti elencoProdotti = new ElencoProdotti();
         
         boolean running = true;
         int maxTimeout =20;
         
-       /* scaffaleNormale.startMonitor();
-        scaffaleBuio.startMonitor();
+        
+       scaffaleNormale.startMonitor();
+        /*scaffaleBuio.startMonitor();
         scaffaleFrigorifero.startMonitor();
         scaffaleCongelatore.startMonitor();*/
         stazioneIngresso.startMonitor();
-        //strazioneUscita.startMonitor();
+        stazioneUscita.startMonitor();
         
         
-        /*InfluxConnector ic = null; 
+        InfluxConnector ic = null; 
         try {
             ic = ScaffaleDb.connection();
         } catch (Exception ex) {
@@ -63,14 +64,18 @@ public class Main {
         }
         
          
-        Measurement scaffaleNormaleMeasurement =  ScaffaleDb.scaffaleNormaleMeasurement(ic);
-        Measurement scaffaleBuioMeasurement =  ScaffaleDb.scaffaleBuioMeasurement(ic);
+        //Measurement scaffaleNormaleMeasurement =  ScaffaleDb.scaffaleNormaleMeasurement(ic);
+        /*Measurement scaffaleBuioMeasurement =  ScaffaleDb.scaffaleBuioMeasurement(ic);
         Measurement scaffaleFrigoriferoMeasurement = ScaffaleDb.scaffaleFrigoriferoMeasurement(ic);
         Measurement scaffaleCongelatoreMeasurement =  ScaffaleDb.scaffaleCongelatoreMeasurement(ic);
         
         Measurement scaffaleBuioLuceMeasuremen = ScaffaleDb.scaffaleBuioLuminositaMeasurement(ic);
         Measurement scaffaleFigoriferoLuceMeasuremen = ScaffaleDb.frigoriferoLuminosita(ic);
         Measurement scaffaleCongelatoreLuceMeasuremen = ScaffaleDb.congelatoreLuminositaMeasurement(ic);*/
+        
+        Measurement stazioneIngreassoMeasurement = StazioneDb.stazioneIngresso(ic);
+        //Measurement stazioneUscitaMeasurement = StazioneDb.stazioneUscita(ic);
+        
         
         
         
@@ -91,13 +96,13 @@ public class Main {
              stazioneIngresso.setColor("BIANCO");
              stazioneIngresso.setText("");
              
-              /*stazioneUscita.setColor("BIANCO");
-             stazioneUscita.setText("");*/
+              stazioneUscita.setColor("BIANCO");
+             stazioneUscita.setText("");
             
-            
-            if(stazioneIngresso.getPeso()>0)
+            double p;
+            if((p=stazioneIngresso.getPeso())>0)
             {
-                System.out.println("Rilevato peso in ingresso");
+                
                 int tempo=0;
                 Barcode b= null;
                 while((b = stazioneIngresso.getRandomBarcodeSimulator())==null)
@@ -122,6 +127,10 @@ public class Main {
                     {
                         stazioneIngresso.setText("PRODOTTO RICONOSCIUTO SCAFFALE "+t.getListaCategorie().get(0));
                         stazioneIngresso.setColor("VERDE");
+                        //add info db
+                        stazioneIngreassoMeasurement.save(p,b);
+                        
+                        
                     }
                     else if(t==null)
                     {
@@ -130,9 +139,57 @@ public class Main {
 
                     }
                 }
-                    //add info al db
+                    
    
             }
+            
+            /*double pp;
+            if((pp=stazioneUscita.getPeso())>0)
+            {
+                
+                int tempo=0;
+                Barcode b= null;
+                while((b = stazioneUscita.getRandomBarcodeSimulator())==null)
+                {
+                    if(tempo == maxTimeout)
+                        break;
+                    stazioneUscita.setText("ASPETTO BARCODE PRODOTTO "+(maxTimeout-tempo));
+                    stazioneUscita.setColor("BLU");
+                    tempo++;
+                    sleep(1000);
+                }
+                if(tempo == maxTimeout)
+                {
+                    stazioneUscita.setText("ERRORE TEMPO SCADUTO");
+                    stazioneUscita.setColor("ROSSO");
+                    
+                }
+                else
+                {
+                    TipoProdotto t=elencoProdotti.cerca(b);
+                    if(t!=null)
+                    {
+                        stazioneUscita.setText("PRODOTTO RICONOSCIUTO SCAFFALE "+t.getListaCategorie().get(0));
+                        stazioneUscita.setColor("VERDE");
+                        stazioneUscitaMeasurement.save(p,b);
+                    }
+                    else if(t==null)
+                    {
+                        stazioneUscita.setText("PRODOTTO NON RICONOSCIUTO");
+                        stazioneUscita.setColor("ROSSO");
+
+                    }
+                }
+                    
+   
+            }*/
+            
+            
+            
+            
+            
+            
+            
             
             
             /*if(strazioneUscita.getPeso()>0)
