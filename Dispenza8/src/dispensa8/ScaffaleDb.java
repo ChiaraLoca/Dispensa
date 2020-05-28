@@ -23,6 +23,7 @@ public class ScaffaleDb {
      } catch (DatabaseSessionException ex){}
   return ic;
     }
+    
 public static Measurement scaffaleNormaleMeasurement(InfluxConnector ic) {
     Measurement SnTempHum = ic.createMeasurement("Temperatura e umidita", "autogen");
     SnTempHum.addField("Temperatura sacffale normale", FieldDesc.Type.NUMBER);

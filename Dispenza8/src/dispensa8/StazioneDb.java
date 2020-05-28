@@ -24,49 +24,28 @@ public class StazioneDb {
   return ic;
      }
      
-public static Measurement stazioneIngressoPeso (InfluxConnector ic) { 
-    Measurement StazIngPeso = ic.createMeasurement("Peso", "autogen");
-    StazIngPeso.addField("Peso prodotto in ingresso", FieldDesc.Type.NUMBER);
-    StazIngPeso.addTag("controlla");
-    return StazIngPeso;
+public static Measurement stazioneIngresso (InfluxConnector ic) { 
+    Measurement StazIng = ic.createMeasurement("Peso barcode stazione ingresso", "autogen");
+    StazIng.addField("Peso prodotto in ingresso", FieldDesc.Type.NUMBER);
+    StazIng.addField("Barcode prodotto in ingresso", FieldDesc.Type.STRING);
+    StazIng.addTag("leggi");
+    return StazIng;
  }
 
-public static void stazioneIngressoPesoSave (Measurement m, double peso){
-    m.save(peso);
+public static void stazioneIngressoSave (Measurement m, double peso, String barcode){
+    m.save(peso, barcode);
 }
 
-public static Measurement stazioneUscitaPeso (InfluxConnector ic) { 
-    Measurement StazUscPeso = ic.createMeasurement("Peso", "autogen");
-    StazUscPeso.addField("Peso prodotto in uscita", FieldDesc.Type.NUMBER);
-    StazUscPeso.addTag("controlla");
-    return StazUscPeso;
+public static Measurement stazioneUscita (InfluxConnector ic) { 
+    Measurement StazUsc = ic.createMeasurement("Peso barcode stazione uscita", "autogen");
+    StazUsc.addField("Peso prodotto in uscita", FieldDesc.Type.NUMBER);
+    StazUsc.addField("Barcode prodotto in uscita", FieldDesc.Type.STRING);
+    StazUsc.addTag("controlla");
+    return StazUsc;
  }
 
-public static void stazioneUscitaPesoSave (Measurement m, double peso){
-    m.save(peso);
-}
-
-public static Measurement stazioneIngressoBarcode (InfluxConnector ic) { 
-    Measurement StazIngBar = ic.createMeasurement("Barcode", "autogen");
-    StazIngBar.addField("Barcode prodotto in ingresso", FieldDesc.Type.STRING);
-    StazIngBar.addTag("leggi");
-    return StazIngBar;
- }
-
-public static void stazioneIngressoBarcodeSave (Measurement m, String barcode){
-    m.save(barcode);
-}
-
-public static Measurement stazioneUscitaBarcode (InfluxConnector ic) { 
-    Measurement StazUscBar = ic.createMeasurement("Barcode", "autogen");
-    StazUscBar.addField("Barcode prodotto in ingresso", FieldDesc.Type.STRING);
-    StazUscBar.addTag("leggi");
-    return StazUscBar;
- }
-
-public static void stazioneUscitaBarcodeSave (Measurement m, String barcode){
-    m.save(barcode);
+public static void stazioneUscitaSave (Measurement m, double peso, String barcode){
+    m.save(peso, barcode);
 }
 
 }
-
