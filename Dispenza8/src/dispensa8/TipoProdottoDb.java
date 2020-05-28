@@ -16,7 +16,7 @@ import ch.industry4_0.influx.connector.InfluxConnector;
 public class TipoProdottoDb {
     
       public static InfluxConnector connection() throws Exception {
-        InfluxConnector ic =null;
+        InfluxConnector ic = null;
   try {      
     ic = InfluxConnector.getInstance();
     ic.init("http://localhost:8086", "TipoProdottoDB", "root", "root");
@@ -27,12 +27,14 @@ public class TipoProdottoDb {
       public static Measurement tipoProdottoBarcode (InfluxConnector ic) { 
     Measurement TpBar = ic.createMeasurement("Barcode", "autogen");
     TpBar.addField("Barcode tipo prodotto", FieldDesc.Type.STRING);
+    TpBar.addField("Peso prodotto", FieldDesc.Type.NUMBER);
+    TpBar.addTag("Scaffale");
     TpBar.addTag("leggi");
     return TpBar;
  }
 
-public static void tipoProdottoBarcodeSave (Measurement m, String barcode){
-    m.save(barcode);
+public static void tipoProdottoBarcodeSave (Measurement m, String barcode,Double peso,String scaffale){
+    m.save(barcode,peso,scaffale);
  }
 }
 

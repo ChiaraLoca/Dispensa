@@ -87,7 +87,7 @@ abstract class Scaffale {
         return t.getHumidity();
     }
     
-        public double getLoadCellSimulator() throws IOException
+        public double getPeso() throws IOException
     {
         
         return (double) monitorLoadCellSimulator.getValue();
@@ -101,7 +101,7 @@ abstract class Scaffale {
     {
         String str="";
         try {
-            str= "nome: "+nome+", Temperatura: "+getTemperature()+", Umidità: "+getHumidity()+", Peso: "+getLoadCellSimulator();
+            str= "nome: "+nome+", Temperatura: "+getTemperature()+", Umidità: "+getHumidity()+", Peso: "+getPeso();
         } catch (IOException ex) {
             Logger.getLogger(Scaffale.class.getName()).log(Level.SEVERE, null, ex);
         }
@@ -118,6 +118,7 @@ class ScaffaleNormale extends Scaffale
     public ScaffaleNormale(GrovePi grovePi) throws IOException{
         super(grovePi,"Normale");
     }
+
 }
 
 class ScaffaleBuio extends Scaffale
