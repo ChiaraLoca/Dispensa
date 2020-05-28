@@ -3,11 +3,13 @@ package dispensa8;
 
 import ch.suspi.simulator.sensors.barcode.Barcode;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 
 
 public class TipoProdotto {
 
+    
     private final String nome;
     private final Barcode barcode;
     private final List<String> listaCategorie;
@@ -59,7 +61,12 @@ public class TipoProdotto {
 
 class ElencoProdotti
 {
-    private final List<TipoProdotto> prodotti = new ArrayList<>();
+    public static List<TipoProdotto> prodotti = new ArrayList<>();
+    public ElencoProdotti()
+    {
+        ArrayList<String> lista1= new ArrayList<>();lista1.add("Normale");
+        prodotti.add(new TipoProdotto("Pasta",new Barcode("141494104086",""),lista1,20.0));
+    }
     
     public void addProdotto(TipoProdotto p)
     {
@@ -78,10 +85,12 @@ class ElencoProdotti
     public TipoProdotto cerca(Barcode barcode)
     {
         for(TipoProdotto p : prodotti){
-            if(p.getBarcode().equals(barcode))
+            if(p.getBarcode().getText().equals(barcode.getText()))
                 return p;
         }
         return null;
     }
+    
+
 
 }

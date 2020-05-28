@@ -19,6 +19,7 @@ class Stazione {
     private final String tipo;
     private final RandomBarcodeSimulator randomBarcodeSimulator;
     private final LoadCellSimulator loadCellSimulator; 
+    private final GroveRgbLcdSimulator groveRgbLcdSimulator;
     
     private final SensorMonitor monitorRandomBarcodeSimulator;
     private final SensorMonitor monitorLoadCellSimulator;
@@ -28,9 +29,11 @@ class Stazione {
         this.tipo =tipo;
         this.randomBarcodeSimulator = new RandomBarcodeSimulator(""+tipo);
         this.loadCellSimulator = new LoadCellSimulator(this.grovePi,Scaffale.numeroPin);
+        this.groveRgbLcdSimulator = new GroveRgbLcdSimulator();
         Scaffale.numeroPin++;
         monitorRandomBarcodeSimulator= new SensorMonitor(randomBarcodeSimulator, 100);
         monitorLoadCellSimulator= new SensorMonitor(loadCellSimulator, 100);
+        
         
     }
     public void startMonitor()
@@ -48,14 +51,11 @@ class Stazione {
     {
         return tipo;
     }
-    public String getRandomBarcodeSimulator() throws Exception
+    public Barcode getRandomBarcodeSimulator() 
     {
-        return randomBarcodeSimulator.get().toString();   
+        return (Barcode) monitorRandomBarcodeSimulator.getValue();
     }
-    public Barcode getRandomBarcodeSimulator_B() throws Exception
-    {
-        return randomBarcodeSimulator.get();   
-    }
+    
     public double getLoadCellSimulator() throws Exception
     {
         return loadCellSimulator.get();   
@@ -67,7 +67,7 @@ class Stazione {
         String str="";
         try {
             str="Stazione d'"+tipo+", Peso:"+getLoadCellSimulator();
-            if(getRandomBarcodeSimulator_B()!=null)
+            if(getRandomBarcodeSimulator()!=null)
             {
                 str += ", Barcode: "+getRandomBarcodeSimulator();
             }
@@ -84,6 +84,25 @@ class Stazione {
             return (double) monitorLoadCellSimulator.getValue();
         else
             return 0;
+    }
+    
+    void setText(String text) throws IOException
+    {
+        groveRgbLcdSimulator.setText(text);
+    }
+    
+    void setColor(String s) throws IOException
+    {
+        switch(s)
+        {
+            case "BLU":{groveRgbLcdSimulator.setRGB(0,0,255);break;}
+            case "ROSSO":{groveRgbLcdSimulator.setRGB(255,0,0);break;}
+            case "VERDE":{groveRgbLcdSimulator.setRGB(50,255,50);break;}
+            case "BIANCO":{groveRgbLcdSimulator.setRGB(255,255,255);break;}
+            
+        }
+            
+        
     }
 }
 
