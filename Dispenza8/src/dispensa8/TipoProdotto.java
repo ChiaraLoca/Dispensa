@@ -29,6 +29,10 @@ public class TipoProdotto {
         }
 
     }
+
+    TipoProdotto() {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
     public String getNome()
     {
         return nome;
@@ -64,7 +68,7 @@ class ElencoProdotti
     public static List<TipoProdotto> prodotti = new ArrayList<>();
     public ElencoProdotti()
     {
-        ArrayList<String> lista1= new ArrayList<>();lista1.add("Normale");
+        ArrayList<String> lista1= new ArrayList<>();lista1.add("Buio");
         prodotti.add(new TipoProdotto("Pasta",new Barcode("141494104086",""),lista1,20.0));
     }
     
@@ -93,4 +97,45 @@ class ElencoProdotti
     
 
 
+}
+
+class Prodotto
+{
+    private TipoProdotto prodotto;
+    private double peso;
+    
+    
+    public Prodotto()
+    {
+        prodotto = null;
+        peso = -1;
+    }
+    
+    public Prodotto(TipoProdotto tp, double p)
+    {
+        prodotto = tp;
+        peso = p;
+    }
+    
+    double getPeso()
+    {
+        return peso;
+    }
+    
+    void setPeso(double peso)
+    {
+        this.peso = peso;
+    }
+    
+    TipoProdotto getTipoProdotto()
+    {
+        return prodotto;
+    }
+    
+    void setTipoProdotto(TipoProdotto tp)
+    {
+        this.prodotto = tp;
+    }
+    
+    
 }

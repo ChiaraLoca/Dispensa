@@ -26,9 +26,9 @@ class Stazione {
     public Stazione(GrovePi grovePi,String tipo) throws IOException
     {
         this.grovePi = grovePi;
-        this.tipo =tipo;
+        this.tipo = tipo;
         this.randomBarcodeSimulator = new RandomBarcodeSimulator(""+tipo);
-        this.loadCellSimulator = new LoadCellSimulator(this.grovePi,Scaffale.numeroPin);
+        this.loadCellSimulator = new LoadCellSimulator(this.grovePi,Scaffale.numeroPin,""+tipo);
         this.groveRgbLcdSimulator = new GroveRgbLcdSimulator();
         Scaffale.numeroPin++;
         monitorRandomBarcodeSimulator= new SensorMonitor(randomBarcodeSimulator, 100);
@@ -98,6 +98,7 @@ class Stazione {
             case "BLU":{groveRgbLcdSimulator.setRGB(0,0,255);break;}
             case "ROSSO":{groveRgbLcdSimulator.setRGB(255,0,0);break;}
             case "VERDE":{groveRgbLcdSimulator.setRGB(50,255,50);break;}
+            case "VIOLA":{groveRgbLcdSimulator.setRGB(128,0,128);break;}
             case "BIANCO":{groveRgbLcdSimulator.setRGB(255,255,255);break;}
             
         }

@@ -30,15 +30,16 @@ abstract class Scaffale {
     private final SensorMonitor monitorTemperatureAndHumiditySimulator;
     private final SensorMonitor monitorLoadCellSimulator;
     
+    double pesoAttuale =0;
     
     public Scaffale(GrovePi grovePi) throws IOException
     {
         this.grovePi = grovePi;
         temperatureAndHumiditySimulator = new TemperatureAndHumiditySimulator(this.grovePi,numeroPin,null);
         numeroPin++;
-        loadCellSimulator = new LoadCellSimulator(grovePi, numeroPin);
-        numeroPin++;
         this.nome = null;
+        loadCellSimulator = new LoadCellSimulator(grovePi, numeroPin,nome);
+        numeroPin++;
         monitorTemperatureAndHumiditySimulator = new SensorMonitor(temperatureAndHumiditySimulator,100);
         monitorLoadCellSimulator = new SensorMonitor(loadCellSimulator, 100);
     }
@@ -47,11 +48,24 @@ abstract class Scaffale {
         this.grovePi = grovePi;
         temperatureAndHumiditySimulator = new TemperatureAndHumiditySimulator(this.grovePi,numeroPin,null);
         numeroPin++;
-        loadCellSimulator = new LoadCellSimulator(grovePi, numeroPin);
-        numeroPin++;
         this.nome = nome;
+        loadCellSimulator = new LoadCellSimulator(grovePi, numeroPin,nome);
+        numeroPin++;
         monitorTemperatureAndHumiditySimulator = new SensorMonitor(temperatureAndHumiditySimulator,100);
         monitorLoadCellSimulator = new SensorMonitor(loadCellSimulator, 100);
+    }
+    
+    double getPesoAttuale()
+    {
+        return pesoAttuale;
+    }
+    void addPesoAttuale(double p)
+    {
+        pesoAttuale+=p;
+    }
+    void subPesoAttuale(double p)
+    {
+        pesoAttuale-=p;
     }
     
     public void startMonitor()
@@ -118,6 +132,8 @@ class ScaffaleNormale extends Scaffale
     public ScaffaleNormale(GrovePi grovePi) throws IOException{
         super(grovePi,"Normale");
     }
+
+    
 
 }
 
