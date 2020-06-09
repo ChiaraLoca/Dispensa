@@ -18,9 +18,9 @@ public class TipoProdottoDb {
 
    
      public static Measurement prodottoMeasurement (InfluxConnector ic) { 
-    Measurement TpBar = ic.createMeasurement("Barcode", "autogen");
-    TpBar.addField("Barcode tipo prodotto", FieldDesc.Type.STRING);
-    TpBar.addField("Peso prodotto", FieldDesc.Type.NUMBER);
+    Measurement TpBar = ic.createMeasurement("Prodotto", "autogen");
+    TpBar.addField("Barcode", FieldDesc.Type.STRING);
+    TpBar.addField("Peso", FieldDesc.Type.NUMBER);
     TpBar.addTag("Scaffale");
     TpBar.addTag("Azione");
     return TpBar;

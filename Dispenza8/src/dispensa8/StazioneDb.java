@@ -7,7 +7,6 @@ package dispensa8;
 
 import ch.industry4_0.dm.FieldDesc;
 import ch.industry4_0.dm.Measurement;
-import ch.industry4_0.exception.DatabaseSessionException;
 import ch.industry4_0.influx.connector.InfluxConnector;
 /**
  *
@@ -15,20 +14,11 @@ import ch.industry4_0.influx.connector.InfluxConnector;
  */
 public class StazioneDb {
     
-     public static InfluxConnector connection() throws Exception {
-        InfluxConnector ic =null;
-  try {      
-    ic = InfluxConnector.getInstance();
-    ic.init("http://localhost:8086", "StazioneDB", "root", "root");
-     } catch (DatabaseSessionException ex){}
-  return ic;
-     }
-     
+
 public static Measurement stazioneMeasurement (InfluxConnector ic) { 
-    Measurement StazIng = ic.createMeasurement("Peso barcode stazione ingresso", "autogen");
-    StazIng.addField("Peso prodotto in ingresso", FieldDesc.Type.NUMBER);
-    StazIng.addField("Barcode prodotto in ingresso", FieldDesc.Type.STRING);
-    
+    Measurement StazIng = ic.createMeasurement("Stazione_Ingresso_Uscita", "autogen");
+    StazIng.addField("Peso", FieldDesc.Type.NUMBER);
+    StazIng.addField("Barcode", FieldDesc.Type.STRING);
     StazIng.addTag("Tipo");
     StazIng.addTag("Accettato");
     return StazIng;

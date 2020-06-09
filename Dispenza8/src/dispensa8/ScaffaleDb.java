@@ -25,10 +25,10 @@ public class ScaffaleDb {
     }
     
 public static Measurement scaffaleNormaleMeasurement(InfluxConnector ic) {
-    Measurement SnTempHum = ic.createMeasurement("Temperatura e umidita", "autogen");
+    Measurement SnTempHum = ic.createMeasurement("ScaffaleNormale_Temp_Hud", "autogen");
     SnTempHum.addField("Temperatura sacffale normale", FieldDesc.Type.NUMBER);
     SnTempHum.addField("Umidita sacffale normale", FieldDesc.Type.NUMBER);
-    SnTempHum.addTag("controlla");
+    
     return SnTempHum;
 }
 public static void scaffaleNormaleSave (Measurement m, double temperatura, double umidita){
@@ -36,9 +36,9 @@ public static void scaffaleNormaleSave (Measurement m, double temperatura, doubl
 }
 
 public static Measurement scaffaleNormalePeso (InfluxConnector ic) { 
-    Measurement SnPeso = ic.createMeasurement("Peso", "autogen");
+    Measurement SnPeso = ic.createMeasurement("ScaffaleNormale_Peso", "autogen");
     SnPeso.addField("Peso prodotto scaffale normale", FieldDesc.Type.NUMBER);
-    SnPeso.addTag("controlla");
+    
     return SnPeso;
  }
 
@@ -47,10 +47,10 @@ public static void scaffaleNormalePesoSave (Measurement m, double peso){
 }
 
 public static Measurement scaffaleBuioMeasurement(InfluxConnector ic) {
-    Measurement SbTempHum = ic.createMeasurement("Temperatura e umidita", "autogen");
+    Measurement SbTempHum = ic.createMeasurement("ScaffaleBuio_Temp_Hud", "autogen");
     SbTempHum.addField("Temperatura sacffale buio", FieldDesc.Type.NUMBER);
     SbTempHum.addField("Umidita sacffale buio", FieldDesc.Type.NUMBER);
-    SbTempHum.addTag("controlla");
+   
     return SbTempHum;
 }
 
@@ -59,9 +59,9 @@ public static void scaffaleBuioSave (Measurement m, double temperatura, double u
 }
 
 public static Measurement scaffaleBuioLuminositaMeasurement(InfluxConnector ic) {
-    Measurement SbLum = ic.createMeasurement("Luminosita", "autogen");
+    Measurement SbLum = ic.createMeasurement("ScaffaleBuio_Luce", "autogen");
     SbLum.addField("Luminosita sacffale buio", FieldDesc.Type.NUMBER);
-    SbLum.addTag("controlla");
+    
     return SbLum;
 }
 
@@ -70,9 +70,9 @@ public static void scaffaleBuoioLuminositaSave (Measurement m, double luminosita
 }
 
 public static Measurement scaffaleBuioPeso (InfluxConnector ic) { 
-    Measurement SbPeso = ic.createMeasurement("Peso", "autogen");
+    Measurement SbPeso = ic.createMeasurement("ScaffaleBuio_Peso", "autogen");
     SbPeso.addField("Peso prodotto scaffale buio", FieldDesc.Type.NUMBER);
-    SbPeso.addTag("controlla");
+    
     return SbPeso;
  }
 
@@ -81,10 +81,10 @@ public static void scaffaleBuioPesoSave (Measurement m, double peso){
 }
 
 public static Measurement scaffaleFrigoriferoMeasurement(InfluxConnector ic) {
-    Measurement FrTempHum = ic.createMeasurement("Temperatura e umidita", "autogen");
+    Measurement FrTempHum = ic.createMeasurement("ScaffaleFrigorifero_Temp_Hud", "autogen");
     FrTempHum.addField("Temperatura Frigorifero", FieldDesc.Type.NUMBER);
     FrTempHum.addField("Umidita Frigorifero", FieldDesc.Type.NUMBER);
-    FrTempHum.addTag("controlla");
+    
     return FrTempHum;
 }
     
@@ -93,9 +93,9 @@ public static void scaffaleFrigoriferoSave(Measurement m, double temperatura, do
 }
 
 public static Measurement scaffaleFrigoriferoLuceMeasurement(InfluxConnector ic){
-    Measurement FrLum = ic.createMeasurement("Luminosita", "autogen");
+    Measurement FrLum = ic.createMeasurement("ScaffaleFrigorifero_Luce", "autogen");
     FrLum.addField("Luminosita frigorifero", FieldDesc.Type.NUMBER);
-    FrLum.addTag("controlla");
+    
     return FrLum;
 }
 
@@ -104,9 +104,8 @@ public static void scaffaleFrigoriferoLuceSave (Measurement m, double luminosita
 }
 
 public static Measurement scaffaleFriogoriferoPeso (InfluxConnector ic) { 
-    Measurement FrPeso = ic.createMeasurement("Peso", "autogen");
+    Measurement FrPeso = ic.createMeasurement("ScaffaleFrigorifero_Peso", "autogen");
     FrPeso.addField("Peso prodotto scaffale frigorifero", FieldDesc.Type.NUMBER);
-    FrPeso.addTag("controlla");
     return FrPeso;
  }
 
@@ -115,10 +114,9 @@ public static void scaffaleFrigoriferoPesoSave (Measurement m, double peso){
 }
 
 public static Measurement scaffaleCongelatoreMeasurement(InfluxConnector ic){
-    Measurement CnTempHum = ic.createMeasurement("Temperatura e umidita", "autogen");
+    Measurement CnTempHum = ic.createMeasurement("ScaffaleCongelatore_Temp_Hud", "autogen");
     CnTempHum.addField("Temperatura congelatore", FieldDesc.Type.NUMBER);
     CnTempHum.addField("Umidita congelatore", FieldDesc.Type.NUMBER);
-    CnTempHum.addTag("controlla");
     return CnTempHum;
 }
     public static void scaffaleCongelatoreSave (Measurement m, double temperatura, double umidita){
@@ -126,9 +124,8 @@ public static Measurement scaffaleCongelatoreMeasurement(InfluxConnector ic){
 }
     
    public static Measurement scaffaleCongelatoreLuceMeasurement(InfluxConnector ic){
-    Measurement CnLum = ic.createMeasurement("Luminosita", "autogen");
+    Measurement CnLum = ic.createMeasurement("ScaffaleCongelatore_Luce", "autogen");
     CnLum.addField("Luminosita congelatore", FieldDesc.Type.NUMBER);
-    CnLum.addTag("controlla");
     return CnLum;
    }
     
@@ -137,9 +134,8 @@ public static Measurement scaffaleCongelatoreMeasurement(InfluxConnector ic){
    }
    
    public static Measurement scaffaleCongelatorePesoMeasurement (InfluxConnector ic) { 
-    Measurement CnPeso = ic.createMeasurement("Peso", "autogen");
+    Measurement CnPeso = ic.createMeasurement("ScaffaleCongelatore_Peso", "autogen");
     CnPeso.addField("Peso prodotto scaffale congelatore", FieldDesc.Type.NUMBER);
-    CnPeso.addTag("controlla");
     return CnPeso;
  }
 
