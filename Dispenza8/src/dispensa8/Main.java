@@ -10,9 +10,10 @@ import ch.industry4_0.exception.DatabaseSessionException;
 import ch.industry4_0.influx.connector.InfluxConnector;
 import ch.suspi.simulator.grove.GrovePiSimulator;
 import ch.suspi.simulator.sensors.barcode.Barcode;
-import static dispensa8.ScaffaleDb.scaffaleNormaleMeasurement;
+
 import java.io.IOException;
 import static java.lang.Thread.sleep;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -49,9 +50,9 @@ public class Main {
         ScaffaleBuio scaffaleBuio = new ScaffaleBuio(grovePi);
         ScaffaleFrigorifero scaffaleFrigorifero = new ScaffaleFrigorifero(grovePi);
         ScaffaleCongelatore scaffaleCongelatore = new ScaffaleCongelatore(grovePi);
-        Stazione stazioneIngresso= new Stazione(grovePi,"ingresso");
-        Stazione stazioneUscita = new Stazione(grovePi,"uscita");
-        //ProdottoInScadenza prodottoInScadenza = new ProdottoInScadenza(grovePi);
+        Stazione stazioneIngresso= new Stazione(grovePi,"Ingresso");
+        Stazione stazioneUscita = new Stazione(grovePi,"Uscita");
+        
         
        
         
@@ -108,9 +109,15 @@ public class Main {
             
            
            
+            if(stazioneIngresso.getPeso()>0)
+            {
+                controlloStazioneIngresso( stazioneIngresso, maxTimeout);
+            }
             
-                controlloStazioneIngresso( stazioneIngresso, maxTimeout, elencoProdotti);
-                controlloStazioneUscita( stazioneIngresso, maxTimeout, elencoProdotti);
+            if(stazioneUscita.getPeso()>0)
+            {
+                controlloStazioneUscita( stazioneUscita, maxTimeout);
+            }
                 
                 Thread.sleep(5000);
                 controlloScaffaliIngresso(stazioneIngresso, scaffaleNormale);
@@ -199,6 +206,7 @@ public class Main {
                     
                 }
             }
+            
 
 
 
@@ -233,15 +241,15 @@ public class Main {
             }
     }
     
-    static void controlloStazioneIngresso(Stazione stazioneIngresso,int maxTimeout,ElencoProdotti elencoProdotti) 
+    static void controlloStazioneIngresso(Stazione stazioneIngresso,int maxTimeout) 
             throws IOException, InterruptedException
     {
         Measurement stazioneMeasurement = StazioneDb.stazioneMeasurement(ic);
         TipoProdotto prodottoIngresso = null;
             double prodottoIngressoPeso;
             
-            
-            if(prodottoSenzaScaffaleIngresso==null && (prodottoIngressoPeso=stazioneIngresso.getPeso())>0)
+            prodottoIngressoPeso=stazioneIngresso.getPeso();
+            if(prodottoSenzaScaffaleIngresso==null )
             {
                 
                 int tempo=0;
@@ -299,15 +307,15 @@ public class Main {
     }
     
     
-    static void controlloStazioneUscita(Stazione stazioneUscita,int maxTimeout,ElencoProdotti elencoProdotti) 
+    static void controlloStazioneUscita(Stazione stazioneUscita,int maxTimeout) 
             throws IOException, InterruptedException
     {
         Measurement stazioneMeasurement = StazioneDb.stazioneMeasurement(ic); 
         TipoProdotto prodottoUscita = null;
             double prodottoUscitaPeso;
             
-          
-            if(prodottoSenzaScaffaleUscita==null&&(prodottoUscitaPeso=stazioneUscita.getPeso())>0)
+          prodottoUscitaPeso=stazioneUscita.getPeso();
+            if(prodottoSenzaScaffaleUscita==null)
             {
                 
                 int tempo=0;
@@ -351,9 +359,11 @@ public class Main {
                     
    
             }
-            else if(prodottoSenzaScaffaleUscita!=null)
+            
+            else
             {
-                stazioneUscita.setText("PORTA FUORI PRODOTTO");
+                
+                stazioneUscita.setText("PORTA FUORI PRODOTTO ...");
                 stazioneUscita.setColor("VIOLA");
                 System.out.println("Metti aposto il prodotto di prima");
             }
@@ -466,36 +476,47 @@ public class Main {
     
     static void removeProdottoDispensa(Prodotto prodotto,String scaffale)
     {
-        int i =0;
-        for(Prodotto p : dispensa)
-        {
-            if(p.getId().equals(prodotto.getId()))
-                break;
-            i++;
-        }
-        if(i==dispensa.size())
-        {System.out.println("Prodotto non trovato");}
-        else
-        {dispensa.remove(i); }
+       if(!dispensa.remove(prodotto))
+            System.out.println("Prodotto non trovato");
+       else
+       {
         Measurement prodottottoMeasurment = TipoProdottoDb.prodottoMeasurement(ic); 
         TipoProdottoDb.prodottoSave(prodottottoMeasurment, prodotto.getId(), prodotto.getPeso(), scaffale,"rimosso");
+       }
     
     }
     
     
     static void controlloMax()
     {
-        for(Prodotto p: dispensa)
-        {
-            System.out.println(p);
-            if(p.getPeso()>=p.getTipoProdotto().getMaxPeso())
-            {
-                System.out.println("\tIl Prodotto supera la quantita massima");
-            }
-        }
         
         for(TipoProdotto tp: elencoProdotti.getProdotti())
-        {}
+        {
+            System.out.println(tp);
+                double peso=0;
+                
+                for(Prodotto p: dispensa)
+                {
+                    
+                    if(tp.getId().equals(p.getId()))
+                    {
+                        
+                        peso+= p.getPeso();
+                        System.out.println("\t"+p.getTipoProdotto().getNome()+", "+p.getScadenza());
+                        if(p.getScadenza().plusDays(4).isEqual(LocalDateTime.now()))
+                        {
+                            System.out.println("\t\tScadenza imminente");
+                        }
+                    }
+                    
+                                
+                }
+                if(peso>=tp.getMaxPeso())
+                    System.out.println("\tEccesso del prodotto");
+                if(peso<=tp.getMinPeso())
+                    System.out.println("\tCarenza del prodotto");
+        
+        }
     
     }
 }

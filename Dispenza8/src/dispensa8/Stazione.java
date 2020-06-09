@@ -23,6 +23,7 @@ class Stazione {
     
     private final SensorMonitor monitorRandomBarcodeSimulator;
     private final SensorMonitor monitorLoadCellSimulator;
+    
     public Stazione(GrovePi grovePi,String tipo) throws IOException
     {
         this.grovePi = grovePi;
