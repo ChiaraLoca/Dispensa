@@ -344,7 +344,7 @@ public class Main {
                         stazioneUscita.setColor("VERDE");
                         
                         prodottoSenzaScaffaleUscita = new Prodotto(prodottoUscita,prodottoUscitaPeso);
-                        StazioneDb.stazioneSave(stazioneMeasurement,prodottoUscitaPeso,b.getText(),"Usita","Accettato");
+                        StazioneDb.stazioneSave(stazioneMeasurement,prodottoUscitaPeso,b.getText(),"Uscita","Accettato");
                         
                         //stazioneUscitaMeasurement.save(p,b.getText());
                     }
@@ -352,7 +352,7 @@ public class Main {
                     {
                         stazioneUscita.setText("PRODOTTO NON RICONOSCIUTO");
                         stazioneUscita.setColor("ROSSO");
-                        StazioneDb.stazioneSave(stazioneMeasurement,prodottoUscitaPeso,b.getText(),"Usita","Non_accettato");
+                        StazioneDb.stazioneSave(stazioneMeasurement,prodottoUscitaPeso,b.getText(),"Uscita","Non_accettato");
 
                     }
                 }
