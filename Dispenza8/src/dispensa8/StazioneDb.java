@@ -24,28 +24,20 @@ public class StazioneDb {
   return ic;
      }
      
-public static Measurement stazioneIngresso (InfluxConnector ic) { 
+public static Measurement stazioneMeasurement (InfluxConnector ic) { 
     Measurement StazIng = ic.createMeasurement("Peso barcode stazione ingresso", "autogen");
     StazIng.addField("Peso prodotto in ingresso", FieldDesc.Type.NUMBER);
     StazIng.addField("Barcode prodotto in ingresso", FieldDesc.Type.STRING);
-    StazIng.addTag("leggi");
+    
+    StazIng.addTag("Tipo");
+    StazIng.addTag("Accettato");
     return StazIng;
  }
 
-public static void stazioneIngressoSave (Measurement m, double peso, String barcode){
-    m.save(peso, barcode);
+public static void stazioneSave (Measurement m, double peso, String barcode,String tipo,String accettato){
+    m.save(peso, barcode,tipo, accettato);
+    //tipo = ingresso o uscita
+    //accettato = accettato o nonAccettato
+}
 }
 
-public static Measurement stazioneUscita (InfluxConnector ic) { 
-    Measurement StazUsc = ic.createMeasurement("Peso barcode stazione uscita", "autogen");
-    StazUsc.addField("Peso prodotto in uscita", FieldDesc.Type.NUMBER);
-    StazUsc.addField("Barcode prodotto in uscita", FieldDesc.Type.STRING);
-    StazUsc.addTag("controlla");
-    return StazUsc;
- }
-
-public static void stazioneUscitaSave (Measurement m, double peso, String barcode){
-    m.save(peso, barcode);
-}
-
-}

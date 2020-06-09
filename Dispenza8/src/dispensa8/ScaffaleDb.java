@@ -88,18 +88,18 @@ public static Measurement scaffaleFrigoriferoMeasurement(InfluxConnector ic) {
     return FrTempHum;
 }
     
-public static void frigoriferoSave(Measurement m, double temperatura, double umidita){
+public static void scaffaleFrigoriferoSave(Measurement m, double temperatura, double umidita){
     m.save(temperatura, umidita);
 }
 
-public static Measurement frigoriferoLuminosita(InfluxConnector ic){
+public static Measurement scaffaleFrigoriferoLuceMeasurement(InfluxConnector ic){
     Measurement FrLum = ic.createMeasurement("Luminosita", "autogen");
     FrLum.addField("Luminosita frigorifero", FieldDesc.Type.NUMBER);
     FrLum.addTag("controlla");
     return FrLum;
 }
 
-public static void frigoriferoLuminositaSave (Measurement m, double luminosita){
+public static void scaffaleFrigoriferoLuceSave (Measurement m, double luminosita){
     m.save(luminosita);
 }
 
@@ -110,7 +110,7 @@ public static Measurement scaffaleFriogoriferoPeso (InfluxConnector ic) {
     return FrPeso;
  }
 
-public static void scaffaleFriogoriferoPesoSave (Measurement m, double peso){
+public static void scaffaleFrigoriferoPesoSave (Measurement m, double peso){
     m.save(peso);
 }
 
@@ -121,22 +121,22 @@ public static Measurement scaffaleCongelatoreMeasurement(InfluxConnector ic){
     CnTempHum.addTag("controlla");
     return CnTempHum;
 }
-    public static void congelatoreSave (Measurement m, double temperatura, double umidita){
+    public static void scaffaleCongelatoreSave (Measurement m, double temperatura, double umidita){
     m.save(temperatura, umidita);
 }
     
-   public static Measurement congelatoreLuminositaMeasurement(InfluxConnector ic){
+   public static Measurement scaffaleCongelatoreLuceMeasurement(InfluxConnector ic){
     Measurement CnLum = ic.createMeasurement("Luminosita", "autogen");
     CnLum.addField("Luminosita congelatore", FieldDesc.Type.NUMBER);
     CnLum.addTag("controlla");
     return CnLum;
    }
     
-   public static void congelatoreLuminositaSave (Measurement m, double luminosita){
+   public static void scaffaleCongelatoreLuceSave (Measurement m, double luminosita){
     m.save(luminosita);
    }
    
-   public static Measurement scaffaleCongelatorePeso (InfluxConnector ic) { 
+   public static Measurement scaffaleCongelatorePesoMeasurement (InfluxConnector ic) { 
     Measurement CnPeso = ic.createMeasurement("Peso", "autogen");
     CnPeso.addField("Peso prodotto scaffale congelatore", FieldDesc.Type.NUMBER);
     CnPeso.addTag("controlla");

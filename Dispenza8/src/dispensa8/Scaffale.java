@@ -46,10 +46,10 @@ abstract class Scaffale {
     public Scaffale(GrovePi grovePi,String nome) throws IOException
     {
         this.grovePi = grovePi;
-        temperatureAndHumiditySimulator = new TemperatureAndHumiditySimulator(this.grovePi,numeroPin,null);
+        temperatureAndHumiditySimulator = new TemperatureAndHumiditySimulator(this.grovePi,numeroPin,null,"Temperatura e Umidità "+nome );
         numeroPin++;
         this.nome = nome;
-        loadCellSimulator = new LoadCellSimulator(grovePi, numeroPin,nome);
+        loadCellSimulator = new LoadCellSimulator(grovePi, numeroPin,"Peso "+ nome);
         numeroPin++;
         monitorTemperatureAndHumiditySimulator = new SensorMonitor(temperatureAndHumiditySimulator,100);
         monitorLoadCellSimulator = new SensorMonitor(loadCellSimulator, 100);
@@ -145,7 +145,7 @@ class ScaffaleBuio extends Scaffale
     
     public ScaffaleBuio(GrovePi grovePi) throws IOException {
         super(grovePi,"Buio");
-        this.lightSensorSimulator = new LightSensorSimulator(getGrovePi(),Scaffale.numeroPin);
+        this.lightSensorSimulator = new LightSensorSimulator(getGrovePi(),Scaffale.numeroPin,"Luminosità "+getNome());
         Scaffale.numeroPin++;
         monitorLightSensorSimulator = new SensorMonitor(lightSensorSimulator, 100);
     }
@@ -194,7 +194,7 @@ class ScaffaleFrigorifero extends Scaffale
     private final SensorMonitor monitorLightSensorSimulator;
     public ScaffaleFrigorifero(GrovePi grovePi) throws IOException {
         super(grovePi,"Frigorifero");
-        this.lightSensorSimulator = new LightSensorSimulator(getGrovePi(),Scaffale.numeroPin);
+        this.lightSensorSimulator = new LightSensorSimulator(getGrovePi(),Scaffale.numeroPin,"Luminosità "+getNome());
         Scaffale.numeroPin++;
     
         monitorLightSensorSimulator = new SensorMonitor(lightSensorSimulator, 100);
@@ -243,7 +243,7 @@ class ScaffaleCongelatore extends Scaffale
     
     public ScaffaleCongelatore(GrovePi grovePi) throws IOException {
         super(grovePi,"Congelatore");
-        this.lightSensorSimulator = new LightSensorSimulator(getGrovePi(),Scaffale.numeroPin);
+        this.lightSensorSimulator = new LightSensorSimulator(getGrovePi(),Scaffale.numeroPin,"Luminosità "+getNome());
         Scaffale.numeroPin++;
         
         monitorLightSensorSimulator = new SensorMonitor(lightSensorSimulator, 100);
