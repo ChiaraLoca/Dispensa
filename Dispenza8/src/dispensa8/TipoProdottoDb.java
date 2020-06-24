@@ -18,16 +18,18 @@ public class TipoProdottoDb {
 
    
      public static Measurement prodottoMeasurement (InfluxConnector ic) { 
-    Measurement TpBar = ic.createMeasurement("Prodotto", "autogen");
+    Measurement TpBar = ic.createMeasurement("Dispensa", "autogen");
     TpBar.addField("Barcode", FieldDesc.Type.STRING);
     TpBar.addField("Peso", FieldDesc.Type.NUMBER);
+    TpBar.addField("Scadenza", FieldDesc.Type.STRING);
+    TpBar.addField("Totale", FieldDesc.Type.NUMBER);
     TpBar.addTag("Scaffale");
     TpBar.addTag("Azione");
     return TpBar;
  }
 
-public static void prodottoSave (Measurement m, String barcode,Double peso,String scaffale,String azione){
-    m.save(barcode,peso,scaffale,azione);//azione = aggiunto o rimosso
+public static void prodottoSave (Measurement m, Prodotto prodotto,String scaffale,String azione,int totale){
+    m.save(prodotto.getId(),prodotto.getPeso(),prodotto.getScadenza().toString(),totale,scaffale,azione);//azione = aggiunto o rimosso
  }
 }
 

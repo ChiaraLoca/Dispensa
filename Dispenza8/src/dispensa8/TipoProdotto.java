@@ -12,7 +12,13 @@ import java.util.Objects;
 public class TipoProdotto {
 
     String getId() {
-        return barcode.getText();
+        if (barcode== null)
+        {System.out.println("TEST-->barcode null");
+                return "";}
+        else
+            return barcode.getText();
+                
+               
     }
 
     
@@ -86,19 +92,19 @@ class ElencoProdotti
         
         
         
-        prodotti.add(new TipoProdotto("Pasta",new Barcode("100000000000",""),ln,4000,50));
-        prodotti.add(new TipoProdotto("Acqua ",new Barcode("200000000000",""),ln,4000,50));
-        prodotti.add(new TipoProdotto("Vino ",new Barcode("300000000000",""),lb,4000,50));
-        prodotti.add(new TipoProdotto("Vino ",new Barcode("400000000000",""),lf,4000,50));
-        prodotti.add(new TipoProdotto("Uova ",new Barcode("500000000000",""),lf,4000,50));
+        prodotti.add(new TipoProdotto("Pasta",new Barcode("100000000000",""),ln,4000,1000));
+        prodotti.add(new TipoProdotto("Acqua ",new Barcode("200000000000",""),ln,4000,1000));
+        prodotti.add(new TipoProdotto("Vino ",new Barcode("300000000000",""),lb,4000,1000));
+        prodotti.add(new TipoProdotto("Birra ",new Barcode("400000000000",""),lf,4000,1000));
+        prodotti.add(new TipoProdotto("Uova ",new Barcode("500000000000",""),lf,4000,1000));
         
-        prodotti.add(new TipoProdotto("Carne",new Barcode("600000000000",""),lc,4000,50));
-        prodotti.add(new TipoProdotto("Pesce ",new Barcode("700000000000",""),lc,4000,50));
-        prodotti.add(new TipoProdotto("Olio ",new Barcode("800000000000",""),lb,4000,50));
-        prodotti.add(new TipoProdotto("Formaggio ",new Barcode("900000000000",""),lb,4000,50));
-        prodotti.add(new TipoProdotto("Salumi ",new Barcode("110000000000",""),lb,4000,50));
+        prodotti.add(new TipoProdotto("Carne",new Barcode("600000000000",""),lc,4000,1000));
+        prodotti.add(new TipoProdotto("Pesce ",new Barcode("700000000000",""),lc,4000,1000));
+        prodotti.add(new TipoProdotto("Olio ",new Barcode("800000000000",""),lb,4000,1000));
+        prodotti.add(new TipoProdotto("Formaggio ",new Barcode("900000000000",""),lb,4000,1000));
+        prodotti.add(new TipoProdotto("Salumi ",new Barcode("110000000000",""),lb,4000,1000));
         
-        prodotti.add(new TipoProdotto("Pane ",new Barcode("120000000000",""),lc,4000,50));
+        prodotti.add(new TipoProdotto("Pane ",new Barcode("120000000000",""),lc,4000,1000));
         
         
     }
@@ -138,14 +144,27 @@ class Prodotto
 {
     private TipoProdotto prodotto;
     private double peso;
-    private LocalDateTime scadenza = LocalDateTime.now().plusDays(5);
+    private LocalDateTime scadenza;
 
+    public Prodotto(TipoProdotto prodotto,double peso)
+    {
+        this.prodotto = prodotto;
+        this.peso = peso;
+        scadenza = LocalDateTime.now().plusDays(5);
+    }
+    /*    public Prodotto()
+    {
+        this.prodotto = null;
+        this.peso = 0.0;
+        scadenza = LocalDateTime.now().plusDays(5);
+    }*/
+    
     @Override
     public int hashCode() {
         int hash = 3;
         hash = 97 * hash + Objects.hashCode(this.prodotto);
         hash = 97 * hash + (int) (Double.doubleToLongBits(this.peso) ^ (Double.doubleToLongBits(this.peso) >>> 32));
-        hash = 97 * hash + Objects.hashCode(this.scadenza);
+       
         return hash;
     }
 
@@ -161,15 +180,17 @@ class Prodotto
             return false;
         }
         final Prodotto other = (Prodotto) obj;
-        if (Double.doubleToLongBits(this.peso) != Double.doubleToLongBits(other.peso)) {
+        
+        if(!this.getId().equals(other.getId()))
             return false;
-        }
-        if (!Objects.equals(this.prodotto, other.prodotto)) {
+        
+        if(this.getPeso() != other.getPeso())
             return false;
-        }
-        if (!Objects.equals(this.scadenza, other.scadenza)) {
+        
+        if(!this.scadenza.isEqual(other.getScadenza()))
             return false;
-        }
+
+        
         return true;
     }
 
@@ -179,7 +200,8 @@ class Prodotto
     
     @Override
     public String toString() {
-        return "prodotto numero:"+ prodotto.getId() +", nome: "+ prodotto.getNome()+", peso "+ +peso+", pesoMax: "+prodotto.getMaxPeso();
+        
+        return "prodotto numero:"+ prodotto.getId() +", nome: "+ prodotto.getNome()+", peso " +peso+", pesoMax: "+prodotto.getMaxPeso();
     }
     
     public LocalDateTime getScadenza()
@@ -192,12 +214,7 @@ class Prodotto
         prodotto = null;
         peso = -1;
     }
-    
-    public Prodotto(TipoProdotto tp, double p)
-    {
-        prodotto = tp;
-        peso = p;
-    }
+
     
     double getPeso()
     {
@@ -225,6 +242,10 @@ class Prodotto
 
     void addPeso(double peso) {
         this.peso += peso;
+    }
+
+    void setScadenza(LocalDateTime scadenza) {
+        this.scadenza = scadenza;
     }
     
     

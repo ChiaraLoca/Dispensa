@@ -19,7 +19,7 @@ public class ScaffaleDb {
         InfluxConnector ic =null;
   try {      
     ic = InfluxConnector.getInstance();
-    ic.init("http://localhost:8086", "Dispensa_DB", "root", "root");
+    ic.init("http://localhost:8086", "DB_Dispensa_Prova", "root", "root");
      } catch (DatabaseSessionException ex){}
   return ic;
     }
